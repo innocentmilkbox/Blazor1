@@ -1,0 +1,74 @@
+﻿@page "/submitcomplaint"
+@using System.Net.Http
+@inject NavigationManager UriHelper
+@inject HttpClient Http
+
+
+
+<h3>Submit Complaint</h3>
+<p>Please fill this form to submit your compalint</p>
+
+<EditForm Model="@newCase" OnValidSubmit="AddCase">
+    <div>
+        <label for="caseTitle">Title</label>
+        <InputText class="form-control col-lg-5" id="caseTitle" @bind-Value="newCase.Title" />
+        <ValidationMessage For="(() => newCase.Title)" />
+    </div>
+
+    <div>
+        <label for="caseType">Type</label>
+        <select id="caseType" class="form-control col-lg-5" @bind="newCase.CaseTypeId">
+            @if (selectionList != null)
+            {
+                foreach (var z in selectionList)
+                {
+                    <option value=@z.id>@z.Title</option>
+                }
+            }
+        </select>
+        <ValidationMessage For="(() => newCase.CaseTypeId)" />
+    </div>
+    <div>
+        <label for="caseDetails">Details</label>
+        <InputTextArea id="caseDetails" class="form-control col-lg-5" rows="8" @bind-Value="newCase.Details" />
+        <ValidationMessage For="(() => newCase.Details)" />
+    </div>
+    @*<div>
+            <InputNumber @bind-Value="newCase.CompanyId" hidden="hidden"></InputNumber>
+        </div>*@
+    <hr />
+    <button class="btn offset-10" @onclick="Cancel">Cancel</button>
+    <button class="btn btn-primary" type="submit">Submit</button>
+
+</EditForm>
+
+@code {
+    List<CaseType> selectionList;
+    Case newCase = new Case();
+    
+    //
+    //
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        selectionList = await Http.GetFromJsonAsync<List<CaseType>>("complaint");
+    }
+    private async Task AddCase()
+    {
+        using (var msg = await Http.PostAsJsonAsync<Case>("complaint", newCase, System.Threading.CancellationToken.None))
+        {
+            if (msg.IsSuccessStatusCode)
+            {                
+                UriHelper.NavigateTo("complaintsuccess");
+            }
+        }
+    }
+    private void Cancel()
+    {
+        newCase.Title = null;
+        newCase.Details = null;
+        newCase.CaseTypeId = 0;
+    }
+
+
+}

@@ -1,0 +1,18 @@
+﻿@page "/complaintsuccess"
+@using BlazorDemo2.Shared.Models
+@inject HttpClient Http
+
+<div class="alert alert-success" role="alert">    
+    <p>Thank you, your complaint has been submitted successfully</p>
+    <hr>
+    <p>Your complaint reference number is @refnum</p>
+</div>
+
+@code {    
+    string refnum;
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        refnum = await Http.GetFromJsonAsync<string>("complaint");
+    }
+}

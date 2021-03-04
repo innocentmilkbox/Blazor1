@@ -1,0 +1,9 @@
+C:\Users\Dell\Desktop\DxcOnJobTraining\BlazorNo1\practice\DemoBlazor2\BlazorDemo2\Shared\bin\Debug\netstandard2.1\BlazorDemo2.Shared.deps.json
+C:\Users\Dell\Desktop\DxcOnJobTraining\BlazorNo1\practice\DemoBlazor2\BlazorDemo2\Shared\bin\Debug\netstandard2.1\BlazorDemo2.Shared.dll
+C:\Users\Dell\Desktop\DxcOnJobTraining\BlazorNo1\practice\DemoBlazor2\BlazorDemo2\Shared\bin\Debug\netstandard2.1\BlazorDemo2.Shared.pdb
+C:\Users\Dell\Desktop\DxcOnJobTraining\BlazorNo1\practice\DemoBlazor2\BlazorDemo2\Shared\obj\Debug\netstandard2.1\BlazorDemo2.Shared.csprojAssemblyReference.cache
+C:\Users\Dell\Desktop\DxcOnJobTraining\BlazorNo1\practice\DemoBlazor2\BlazorDemo2\Shared\obj\Debug\netstandard2.1\BlazorDemo2.Shared.AssemblyInfoInputs.cache
+C:\Users\Dell\Desktop\DxcOnJobTraining\BlazorNo1\practice\DemoBlazor2\BlazorDemo2\Shared\obj\Debug\netstandard2.1\BlazorDemo2.Shared.AssemblyInfo.cs
+C:\Users\Dell\Desktop\DxcOnJobTraining\BlazorNo1\practice\DemoBlazor2\BlazorDemo2\Shared\obj\Debug\netstandard2.1\BlazorDemo2.Shared.csproj.CoreCompileInputs.cache
+C:\Users\Dell\Desktop\DxcOnJobTraining\BlazorNo1\practice\DemoBlazor2\BlazorDemo2\Shared\obj\Debug\netstandard2.1\BlazorDemo2.Shared.dll
+C:\Users\Dell\Desktop\DxcOnJobTraining\BlazorNo1\practice\DemoBlazor2\BlazorDemo2\Shared\obj\Debug\netstandard2.1\BlazorDemo2.Shared.pdb

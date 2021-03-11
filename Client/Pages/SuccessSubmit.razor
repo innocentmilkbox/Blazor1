@@ -1,4 +1,4 @@
-﻿@page "/complaintsuccess"
+﻿@page "/submitcomplaint/{refnum}"
 @using BlazorDemo2.Shared.Models
 @inject HttpClient Http
 
@@ -9,10 +9,7 @@
 </div>
 
 @code {    
-    string refnum;
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        refnum = await Http.GetFromJsonAsync<string>("complaint");
-    }
+    [Parameter]
+    public string refnum { get; set; }
+
 }

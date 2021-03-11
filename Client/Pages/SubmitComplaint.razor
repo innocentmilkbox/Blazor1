@@ -1,13 +1,19 @@
 ﻿@page "/submitcomplaint"
 @using System.Net.Http
+@using BlazorDemo2.Shared
+@inject IJSRuntime JS
 @inject NavigationManager UriHelper
 @inject HttpClient Http
+
+
+@using Microsoft.Extensions.Configuration
+
+@inject IConfiguration configuration
 
 
 
 <h3>Submit Complaint</h3>
 <p>Please fill this form to submit your compalint</p>
-
 <EditForm Model="@newCase" OnValidSubmit="AddCase">
     <div>
         <label for="caseTitle">Title</label>
@@ -36,18 +42,23 @@
     @*<div>
             <InputNumber @bind-Value="newCase.CompanyId" hidden="hidden"></InputNumber>
         </div>*@
+    @*<div class="section">
+            <ReCAPTCHA @ref="reCAPTCHAComponent" SiteKey="6LdR33AaAAAAAH31VzIQQixmtpaPa47QJEynACOV" OnSuccess="OnSuccess" OnExpired="OnExpired" />
+        </div>*@
     <hr />
     <button class="btn offset-10" @onclick="Cancel">Cancel</button>
     <button class="btn btn-primary" type="submit">Submit</button>
 
 </EditForm>
 
+
+
+
 @code {
     List<CaseType> selectionList;
     Case newCase = new Case();
-    
-    //
-    //
+    public string refnum;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -55,11 +66,31 @@
     }
     private async Task AddCase()
     {
+        /*
+        if (ValidReCAPTCHA)
+        {
+            var response = await reCAPTCHAComponent.GetResponseAsync();
+            try
+            {
+                ServerVerificatiing = true;
+                StateHasChanged();
+                await Http.PostAsJsonAsync("/api/sample", new SampleAPIArgs { reCAPTCHAResponse = response });
+                UriHelper.NavigateTo("/valid");
+            }
+            catch (HttpRequestException e)
+            {
+                await JS.InvokeAsync<object>("alert", e.Message);
+                ServerVerificatiing = false;
+                StateHasChanged();
+            }
+        }*/
+        newCase.refNumber = DateTime.Now.Ticks.ToString();
+        refnum = newCase.refNumber;
         using (var msg = await Http.PostAsJsonAsync<Case>("complaint", newCase, System.Threading.CancellationToken.None))
         {
             if (msg.IsSuccessStatusCode)
-            {                
-                UriHelper.NavigateTo("complaintsuccess");
+            {
+                UriHelper.NavigateTo("submitcomplaint/" + refnum);
             }
         }
     }
@@ -67,8 +98,46 @@
     {
         newCase.Title = null;
         newCase.Details = null;
-        newCase.CaseTypeId = 0;
+        newCase.CaseTypeId = 1;
+    }
+    //Captcha
+    private ReCAPTCHA reCAPTCHAComponent;
+
+    private bool ValidReCAPTCHA = false;
+
+    private bool ServerVerificatiing = false;
+
+    private bool DisablePostButton => !ValidReCAPTCHA || ServerVerificatiing;
+
+    private void OnSuccess()
+    {
+        ValidReCAPTCHA = true;
     }
 
+    private void OnExpired()
+    {
+        ValidReCAPTCHA = false;
+    }
 
+    private async Task OnClickPost()
+    {
+        if (ValidReCAPTCHA)
+        {
+            var response = await reCAPTCHAComponent.GetResponseAsync();
+            try
+            {
+                ServerVerificatiing = true;
+                StateHasChanged();
+                await Http.PostAsJsonAsync("/api/sample", new SampleAPIArgs { reCAPTCHAResponse = response });
+                UriHelper.NavigateTo("/valid");
+            }
+            catch (HttpRequestException e)
+            {
+                await JS.InvokeAsync<object>("alert", e.Message);
+                ServerVerificatiing = false;
+                StateHasChanged();
+            }
+        }
+    }
+    //End Captcha
 }

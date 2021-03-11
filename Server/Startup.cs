@@ -33,17 +33,8 @@ namespace BlazorDemo2.Server
             });
             services.AddControllersWithViews();
             //
-            if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
-            {
-                services.AddScoped<HttpClient>(s =>
-                {
-                    var uriHelper = s.GetRequiredService<NavigationManager>();
-                    return new HttpClient
-                    {
-                        BaseAddress = new Uri(uriHelper.BaseUri)
-                    };
-                });
-            }
+            services.Configure<reCAPTCHAVerificationOptions>(Configuration.GetSection("reCAPTCHA"));
+            services.AddMvc();
             services.AddRazorPages();
             //
             services.AddServerSideBlazor();
